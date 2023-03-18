@@ -1,44 +1,44 @@
 
 Easy Configurator, configuration engine  V_3_3 
 
-log created on Sat Mar 18 14:37:24 2023
+log created on Sat Mar 18 15:03:48 2023
 
 Analyzing the project file
 
 Easy Configurator project tbmcontrolpi.prj
 
 OUTPUTS_TAG
-Line 4 --- temperatureTBM          int32_t
-Line 5 --- inclinometer0           int32_t
-Line 6 --- inclinometer1           int32_t
-Line 7 --- inclinometer2           int32_t
-Line 8 --- methane                 int32_t
-Line 9 --- output0                 int32_t
-Line 10 --- output1                 int32_t
-Line 11 --- output2                 int32_t
-Line 12 --- output3                 int32_t
-Line 13 --- status                  uint8_t
+Line 4 --- output0                 int32_t
+Line 5 --- output1                 int32_t
+Line 6 --- output2                 int32_t
+Line 7 --- output3                 int32_t
+Line 8 --- status_out              uint8_t
 INPUTS_TAG
+Line 10 --- inclinometer0           int32_t
+Line 11 --- inclinometer1           int32_t
+Line 12 --- inclinometer2           int32_t
+Line 13 --- temperatureTBM          int32_t
+Line 14 --- methane                 int32_t
 Line 15 --- input0                  int32_t
 Line 16 --- input1                  int32_t
 Line 17 --- input2                  int32_t
 Line 18 --- input3                  int32_t
-Line 19 --- status                  uint8_t
+Line 19 --- status_in               uint8_t
 INFO_TAG
 0x99999999
 Warwick Boring
 0x00000001
-0x00000003
+0x00000004
 TBMControlPi
 TBMControlPi
 END_TAG
 
 The tbmcontrolpi.prj configuration file is correct
 
-ByteNumOut 37
-ByteNumIn  17
-PdoNumOut  10
-PdoNumIn   5
+ByteNumOut 17
+ByteNumIn  37
+PdoNumOut  5
+PdoNumIn   10
 
 Creating the tbmcontrolpi.xml file
 
@@ -46,7 +46,7 @@ PROJECT_TAG   tbmcontrolpi.prj
 VENDOID_TAG   99999999
 VEN_NAM_TAG   Warwick Boring
 PRO_COD_TAG   00000001
-REVISIO_TAG   00000003
+REVISIO_TAG   00000004
 DEV_NAM_TAG   TBMControlPi
 DEV_NAM_TAG   TBMControlPi
 
@@ -57,70 +57,35 @@ Output entries
             <Index>#x5</Index>
             <SubIndex>1</SubIndex>
             <BitLen>32</BitLen>
-            <Name>temperatureTBM</Name>
+            <Name>output0</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
             <SubIndex>2</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclinometer0</Name>
+            <Name>output1</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
             <SubIndex>3</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclinometer1</Name>
+            <Name>output2</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
             <SubIndex>4</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclinometer2</Name>
-            <DataType>DINT</DataType>
-          </Entry>
-          <Entry>
-            <Index>#x5</Index>
-            <SubIndex>5</SubIndex>
-            <BitLen>32</BitLen>
-            <Name>methane</Name>
-            <DataType>DINT</DataType>
-          </Entry>
-          <Entry>
-            <Index>#x5</Index>
-            <SubIndex>6</SubIndex>
-            <BitLen>32</BitLen>
-            <Name>output0</Name>
-            <DataType>DINT</DataType>
-          </Entry>
-          <Entry>
-            <Index>#x5</Index>
-            <SubIndex>7</SubIndex>
-            <BitLen>32</BitLen>
-            <Name>output1</Name>
-            <DataType>DINT</DataType>
-          </Entry>
-          <Entry>
-            <Index>#x5</Index>
-            <SubIndex>8</SubIndex>
-            <BitLen>32</BitLen>
-            <Name>output2</Name>
-            <DataType>DINT</DataType>
-          </Entry>
-          <Entry>
-            <Index>#x5</Index>
-            <SubIndex>9</SubIndex>
-            <BitLen>32</BitLen>
             <Name>output3</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
-            <SubIndex>10</SubIndex>
+            <SubIndex>5</SubIndex>
             <BitLen>8</BitLen>
-            <Name>status</Name>
+            <Name>status_out</Name>
             <DataType>USINT</DataType>
           </Entry>
 
@@ -129,35 +94,70 @@ Input entries
             <Index>#x6</Index>
             <SubIndex>1</SubIndex>
             <BitLen>32</BitLen>
-            <Name>input0</Name>
+            <Name>inclinometer0</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x6</Index>
             <SubIndex>2</SubIndex>
             <BitLen>32</BitLen>
-            <Name>input1</Name>
+            <Name>inclinometer1</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x6</Index>
             <SubIndex>3</SubIndex>
             <BitLen>32</BitLen>
-            <Name>input2</Name>
+            <Name>inclinometer2</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x6</Index>
             <SubIndex>4</SubIndex>
             <BitLen>32</BitLen>
-            <Name>input3</Name>
+            <Name>temperatureTBM</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x6</Index>
             <SubIndex>5</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>methane</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6</Index>
+            <SubIndex>6</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>input0</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6</Index>
+            <SubIndex>7</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>input1</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6</Index>
+            <SubIndex>8</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>input2</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6</Index>
+            <SubIndex>9</SubIndex>
+            <BitLen>32</BitLen>
+            <Name>input3</Name>
+            <DataType>DINT</DataType>
+          </Entry>
+          <Entry>
+            <Index>#x6</Index>
+            <SubIndex>10</SubIndex>
             <BitLen>8</BitLen>
-            <Name>status</Name>
+            <Name>status_in</Name>
             <DataType>USINT</DataType>
           </Entry>
 
@@ -167,30 +167,30 @@ The tbmcontrolpi.xml file has been created
 
 Creating the tbmcontrolpi.h file
 
-#define CUST_BYTE_NUM_OUT	37
-#define CUST_BYTE_NUM_IN	17
-#define TOT_BYTE_NUM_ROUND_OUT	40
-#define TOT_BYTE_NUM_ROUND_IN	20
+#define CUST_BYTE_NUM_OUT	17
+#define CUST_BYTE_NUM_IN	37
+#define TOT_BYTE_NUM_ROUND_OUT	20
+#define TOT_BYTE_NUM_ROUND_IN	40
 
 
 Output entries
-		int32_t     temperatureTBM;
-		int32_t     inclinometer0;
-		int32_t     inclinometer1;
-		int32_t     inclinometer2;
-		int32_t     methane;
 		int32_t     output0;
 		int32_t     output1;
 		int32_t     output2;
 		int32_t     output3;
-		uint8_t     status;
+		uint8_t     status_out;
 
 Input entries
+		int32_t     inclinometer0;
+		int32_t     inclinometer1;
+		int32_t     inclinometer2;
+		int32_t     temperatureTBM;
+		int32_t     methane;
 		int32_t     input0;
 		int32_t     input1;
 		int32_t     input2;
 		int32_t     input3;
-		uint8_t     status;
+		uint8_t     status_in;
 
 The tbmcontrolpi.h file has been created
 
