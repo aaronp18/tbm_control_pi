@@ -84,7 +84,7 @@ int main()
 
         EASYCAT.BufferIn.Cust.status_in = 1;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
-
+        // * TODO print out values every 5 seconds
         usleep(100000); // delay of 100mS
     }
 }
