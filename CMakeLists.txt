@@ -15,7 +15,7 @@ include_directories(TBMControlPi PRIVATE
 
 
 add_executable(TBMControlPi
-  ${CMAKE_SOURCE_DIR}/src/tbmcontrolpi.cpp
+  ${CMAKE_SOURCE_DIR}/src/TBMControlPi.cpp
 )
 
 # target_link_libraries( TBMControlPi ${OpenCV_LIBS} )
