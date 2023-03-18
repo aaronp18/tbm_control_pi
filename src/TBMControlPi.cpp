@@ -45,7 +45,7 @@ int16_t temperatureADC, methaneADC, inclinometer0ADC, inclinometer1ADC, inclinom
 
 unsigned short OutCount = 0;
 
-int c = 0;
+int i = 0;
 
 int main()
 {
@@ -98,6 +98,20 @@ int main()
 
         readValues();
 
+        if (i > 50)
+        {
+            i = 0;
+            printf("=========\n");
+            printf("| Status: %d\t| ", EASYCAT.BufferIn.Cust.status_in);
+            printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
+            printf(" Methane: %d\t|", EASYCAT.BufferIn.Cust.methane);
+            printf(" Inclinometer0: %d\t|", EASYCAT.BufferIn.Cust.inclinometer0);
+            printf(" Inclinometer1: %d\t|", EASYCAT.BufferIn.Cust.inclinometer1);
+            printf(" Inclinometer2: %d\t|", EASYCAT.BufferIn.Cust.inclinometer2);
+            printf("\n\n");
+        }
+        i++;
+
         usleep(100000); // delay of 100mS
     }
 }
@@ -122,8 +136,6 @@ void readValues()
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
-
-    printf("Temperature: %d\n", EASYCAT.BufferIn.Cust.temperatureTBM);
 }
 
 // * Sets up the ADCs with the appropriate addresses
