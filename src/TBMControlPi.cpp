@@ -43,31 +43,21 @@ Adafruit_ADS1115 ads1(0x49); // ADC1
 
 // Remember that the board must be modified to match the pin chosen
 
-uint16_t ContaUp;  // used for sawthoot test generation
-uint8_t ContaDown; //
-
 int16_t temperatureADC, methaneADC, inclinometer0ADC, inclinometer1ADC, inclinometer2ADC;
-
-unsigned short OutCount = 0;
 
 int i = 0;
 
 int main()
 {
-    char cValue; // used to read the output buffer
-
-    ContaUp = 0x0000;   //
-    ContaDown = 0x0000; //
-
     //---- initialize the EasyCAT board -----
 
     if (EASYCAT.Init() == true) // initialization
     {
-        printf("inizialized\n"); // succesfully completed
+        printf("Easy CAT Initialised\n"); // succesfully completed
     }
     else // initialization failed
     {
-        printf("inizialization failed\n"); // the EasyCAT board was not recognized
+        printf("Initialition failed\n"); // the EasyCAT board was not recognized
         return -1;
     }
 
@@ -98,16 +88,18 @@ int main()
 
         EASYCAT.MainTask(); // execute the EasyCAT task
 
-        EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
+             EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
 
         readValues();
+
+        EASYCAT.BufferIn.Cust.status_in = 1;
 
         if (i > 50)
         {
             i = 0;
             printf("=========\n");
-            printf("| Status: %d\t| ", EASYCAT.BufferIn.Cust.status_in);
+            printf("| Status: %d\t| ", EASYCAT.BufferOut.Cust.status_out);
             printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
             printf(" Pi Temperature: %d\t|", EASYCAT.BufferIn.Cust.input0);
             printf(" Methane: %d\t|", EASYCAT.BufferIn.Cust.methane);
