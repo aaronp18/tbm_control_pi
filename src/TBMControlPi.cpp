@@ -193,3 +193,13 @@ int32_t getMethaneConc(int32_t mmethaneADC)
     int32_t ppm = 1021 * pow((Rm / R), -2.7887);
     return ppm;
 }
+
+int32_t getPiTemperature()
+{
+    FILE *temperatureFile;
+    double T;
+    temperatureFile = fopen ("/sys/class/thermal/thermal_zone0/temp", "r");
+    fscanf (temperatureFile, "%lf", &T);
+    T /= 1000;
+    return T;
+}
