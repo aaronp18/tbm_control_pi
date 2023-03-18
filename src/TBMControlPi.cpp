@@ -15,9 +15,14 @@
 //----- Derived from the example project TestEasyCAT.ino for the AB&T EasyCAT Arduino shield
 
 #include <stdio.h>
+#include <iostream>
 #include <unistd.h>
 #include <stdint.h>
 #include <math.h>
+
+using namespace std;
+
+#define VDD 5.3
 
 #include "TBMControlPi.h"
 
@@ -27,8 +32,8 @@
 
 EasyCAT EASYCAT; // EasyCAT istantiation
 
-Adafruit_ADS1015 ads0(0x48); // ADC0
-Adafruit_ADS1015 ads1(0x49); // ADC1
+Adafruit_ADS1115 ads0(0x48); // ADC0
+Adafruit_ADS1115 ads1(0x49); // ADC1
 
 // The constructor allow us to choose the pin used for the EasyCAT HAT chip select
 // Without any parameter pin 24 (CE0) will be used
@@ -104,6 +109,7 @@ int main()
             printf("=========\n");
             printf("| Status: %d\t| ", EASYCAT.BufferIn.Cust.status_in);
             printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
+            printf(" Pi Temperature: %d\t|", EASYCAT.BufferIn.Cust.input0);
             printf(" Methane: %d\t|", EASYCAT.BufferIn.Cust.methane);
             printf(" Inclinometer0: %d\t|", EASYCAT.BufferIn.Cust.inclinometer0);
             printf(" Inclinometer1: %d\t|", EASYCAT.BufferIn.Cust.inclinometer1);
@@ -111,6 +117,8 @@ int main()
             printf("\n\n");
         }
         i++;
+
+        // printAllADC();
 
         usleep(100000); // delay of 100mS
     }
@@ -136,6 +144,8 @@ void readValues()
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
+
+    EASYCAT.BufferIn.Cust.input0 = getPiTemperature();
 }
 
 // * Sets up the ADCs with the appropriate addresses
@@ -156,29 +166,34 @@ void initADCs()
 int32_t getThermistorTemp(int32_t mtemperatureADC)
 {
     // ADC to voltage
-    int32_t Vout = mtemperatureADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    double Vout = mtemperatureADC * 6.144 / 32768.0; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    // double Vout = mtemperatureADC;
+
+    cout << "Temp: " << Vout << "\t";
 
     // Check for zero (not connected)
-    if (Vout == 0)
+    if (abs(Vout) < 0.01)
     {
         return 0;
     }
 
     // voltage to resistance resistance
-    int32_t R = 10000;                   // R = 10k
-    int32_t Rt = ((5 * R) / (Vout)) - R; // Vs = 5
+    double R = 10000;                     // R = 10k
+    double Rt = ((VDD * R) / (Vout)) - R; // Vs = 5
+
     // resistance to temperature
-    int32_t r0 = 10000;
-    int32_t t0 = 25;
-    int32_t b = 3950;
-    int32_t t = 100 * (1 / (1 / (t0 + 273.15) + log(Rt / r0) / b) - 273.15); // 100 * C
-    return t;
+    double r0 = 10000;
+    double t0 = 25;
+    double b = 3950;
+    double t_double = 100 * (1 / (1 / (t0 + 273.15) + log(Rt / r0) / b) - 273.15); // 100 * C
+
+    return (int32_t)t_double;
 }
 
 int32_t getMethaneConc(int32_t mmethaneADC)
 {
     // ADC to voltage
-    int32_t Vout = mmethaneADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    double Vout = mmethaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
     if (Vout == 0)
     {
@@ -186,20 +201,35 @@ int32_t getMethaneConc(int32_t mmethaneADC)
     }
 
     // voltage to resistance resistance
-    int32_t R = 20000;             // R = 20k
-    int32_t Rm = 5 * R / Vout - R; // Vs = 5
+    double R = 20000;                     // R = 20k
+    double Rm = ((VDD * R) / (Vout)) - R; // Vs = 5
 
     // resistance to temperature
-    int32_t ppm = 1021 * pow((Rm / R), -2.7887);
-    return ppm;
+    double ppm_double = 1021 * pow((Rm / R), -2.7887);
+    return (int32_t)ppm_double;
 }
 
 int32_t getPiTemperature()
 {
     FILE *temperatureFile;
     double T;
-    temperatureFile = fopen ("/sys/class/thermal/thermal_zone0/temp", "r");
-    fscanf (temperatureFile, "%lf", &T);
-    T /= 1000;
+    temperatureFile = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
+    fscanf(temperatureFile, "%lf", &T);
+    T /= 10; // To get in 1/100th of a degree
     return T;
+}
+
+void printAllADC()
+{
+    std::cout << "A0-0: " << ads0.readADC_SingleEnded(0) << "\t";
+    std::cout << "A0-1: " << ads0.readADC_SingleEnded(1) << "\t";
+    std::cout << "A0-2: " << ads0.readADC_SingleEnded(2) << "\t";
+    std::cout << "A0-3: " << ads0.readADC_SingleEnded(3) << "\t";
+
+    std::cout << "A1-0: " << ads1.readADC_SingleEnded(0) << "\t";
+    std::cout << "A1-1: " << ads1.readADC_SingleEnded(1) << "\t";
+    std::cout << "A1-2: " << ads1.readADC_SingleEnded(2) << "\t";
+    std::cout << "A1-3: " << ads1.readADC_SingleEnded(3) << "\t";
+
+    std::cout << "\n";
 }
