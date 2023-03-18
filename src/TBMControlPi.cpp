@@ -22,7 +22,12 @@
 
 #include "EasyCAT.h" // EasyCAT library to interface
 
+#include "../Adafruit_ADS1015.h" // Adafruit ADS1015 library
+
 EasyCAT EASYCAT; // EasyCAT istantiation
+
+Adafruit_ADS1015 ads0(0x48); // ADC0
+Adafruit_ADS1015 ads1(0x49); // ADC1
 
 // The constructor allow us to choose the pin used for the EasyCAT HAT chip select
 // Without any parameter pin 24 (CE0) will be used
@@ -92,6 +97,19 @@ int main()
 // * Reads the values of the ADC and saves them to local variables.
 void readValues()
 {
+    // * Read the values from the ADCs
+    methaneADC = ads0.readADC_SingleEnded(0);
+    temperatureADC = ads0.readADC_SingleEnded(1);
+    inclinometer0ADC = ads1.readADC_SingleEnded(0); // X
+    inclinometer1ADC = ads1.readADC_SingleEnded(1); // Y
+    inclinometer2ADC = ads1.readADC_SingleEnded(2); // Pitch
+
+    // * Convert the values to the correct units
+    EASYCAT.BufferIn.Cust.temperature = temperatureADC;
+    EASYCAT.BufferIn.Cust.methane = methaneADC;
+    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC;
+    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC;
+    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC;
 }
 
 // * Sets up the ADCs with the appropriate addresses
@@ -99,4 +117,11 @@ void initADCs()
 {
     // ADC0 has addr 0x48
     // ADC1 has addr 0x49
+
+    ads0.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+    ads1.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+
+    ads0.begin();
+    ads1.begin();
+
 }
