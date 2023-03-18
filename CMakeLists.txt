@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(TBMControlPi VERSION 1.0)
-add_executable(TBMControlPi tbmcontrolpi.cpp)
+project(TBMControl VERSION 1.0)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -10,15 +9,15 @@ set(CUSTOM 1)
 # FIND_PACKAGE( OpenCV REQUIRED )   
 # include_directories( ${OpenCV_INCLUDE_DIRS} )  
 
-include_directories(TBMControlPi PRIVATE
+include_directories(TBMControl PRIVATE
   ${CMAKE_SOURCE_DIR}/src
   ${CMAKE_SOURCE_DIR}/include
  )
 
 
-add_executable(TBMControlPi
+add_executable(TBMControl
   ${CMAKE_SOURCE_DIR}/src/TBMControlPi.cpp
 )
 
-# target_link_libraries( TBMControlPi ${OpenCV_LIBS} )
-target_link_libraries( TBMControlPi )
+# target_link_libraries( TBMControl ${OpenCV_LIBS} )
+target_link_libraries( TBMControl )
