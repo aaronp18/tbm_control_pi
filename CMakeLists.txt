@@ -20,7 +20,8 @@ include_directories(TBMControl PRIVATE
 add_executable(TBMControl
   ${CMAKE_SOURCE_DIR}/src/TBMControlPi.cpp
   ${CMAKE_SOURCE_DIR}/src/EasyCAT.cpp
+  ${CMAKE_SOURCE_DIR}/src/Adafruit_ADS1015.cpp
 )
 
 # target_link_libraries( TBMControl ${OpenCV_LIBS} )
-target_link_libraries( TBMControl bcm2835 )
+target_link_libraries( TBMControl bcm2835 wiringPi )

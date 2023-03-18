@@ -85,7 +85,7 @@ EasyCAT::EasyCAT(uint8_t SCS, SyncMode Sync) //
 
 bool EasyCAT::Init()
 {
-#define Tout 1000
+#define Tout 2000
 
   ULONG TempLong;
   unsigned short i;
@@ -146,10 +146,12 @@ bool EasyCAT::Init()
   {                                                   //
     i++;                                              //
     TempLong.Long = SPIReadRegisterDirect(RESET_CTL); //
+    usleep(100);
   } while (((TempLong.Byte[0] & 0x01) != 0x00) && (i != Tout));
   //
   if (i == Tout)  // time out expired
   {               //
+    printf("Digital RST Failed");
     return false; // initialization failed
   }
 
@@ -161,7 +163,8 @@ bool EasyCAT::Init()
   } while ((TempLong.Long != 0x87654321) && (i != Tout)); //
                                                           //
   if (i == Tout)                                          // time out expired
-  {                                                       //
+  {
+    printf("Byte Test Failed");                                                       //
     return false;                                         // initialization failed
   }
 
@@ -174,6 +177,7 @@ bool EasyCAT::Init()
   //
   if (i == Tout)  // time out expired
   {               //
+    printf("HW_cfg failed");
     return false; // initialization failed
   }
 

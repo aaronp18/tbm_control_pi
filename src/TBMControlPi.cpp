@@ -23,7 +23,7 @@
 
 #include "EasyCAT.h" // EasyCAT library to interface
 
-#include "../Adafruit_ADS1015.h" // Adafruit ADS1015 library
+#include "Adafruit_ADS1015.h" // Adafruit ADS1015 library
 
 EasyCAT EASYCAT; // EasyCAT istantiation
 
@@ -107,7 +107,7 @@ void readValues()
 
     // * Convert the values to the correct units
 
-    EASYCAT.BufferIn.Cust.temperature = getThermistorTemp(temperatureADC);
+    EASYCAT.BufferIn.Cust.temperatureTBM = getThermistorTemp(temperatureADC);
 
     EASYCAT.BufferIn.Cust.methane = getMethaneConc(methaneADC);
 
@@ -122,41 +122,40 @@ void initADCs()
     // ADC0 has addr 0x48
     // ADC1 has addr 0x49
 
-    ads0.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
-    ads1.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+    ads0.setGain(GAIN_TWOTHIRDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+    ads1.setGain(GAIN_TWOTHIRDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
 
     ads0.begin();
     ads1.begin();
-
 }
 
-int32_t getThermistorTemp(int32_t temperatureADC)
+int32_t getThermistorTemp(int32_t mtemperatureADC)
 {
-    //ADC to voltage
-    int32_t Vout = temperatureADC * 3 / 32768; //1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    // ADC to voltage
+    int32_t Vout = mtemperatureADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
-    //voltage to resistance resistance
-    int32_t R = 10000; // R = 10k
+    // voltage to resistance resistance
+    int32_t R = 10000;             // R = 10k
     int32_t Rt = 5 * R / Vout - R; // Vs = 5
 
-    //resistance to temperature
+    // resistance to temperature
     int32_t r0 = 10000;
     int32_t t0 = 25;
     int32_t b = 3950;
-    int32_t t = 100 * (1 / (1 / (t0 + 273.15) + log(rt / r0) / b) - 273.15); // 100 * C
+    int32_t t = 100 * (1 / (1 / (t0 + 273.15) + log(Rt / r0) / b) - 273.15); // 100 * C
     return t;
 }
 
-int32_t getMethaneConc(int32_t methaneADC)
+int32_t getMethaneConc(int32_t mmethaneADC)
 {
-    //ADC to voltage
-    int32_t Vout = methaneADC * 3 / 32768; //1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    // ADC to voltage
+    int32_t Vout = mmethaneADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
-    //voltage to resistance resistance
-    int32_t R = 20000; // R = 20k
+    // voltage to resistance resistance
+    int32_t R = 20000;             // R = 20k
     int32_t Rm = 5 * R / Vout - R; // Vs = 5
 
-    //resistance to temperature
-    int32_t ppm = 1021 * pow((Rm/R), -2.7887);
+    // resistance to temperature
+    int32_t ppm = 1021 * pow((Rm / R), -2.7887);
     return ppm;
 }
