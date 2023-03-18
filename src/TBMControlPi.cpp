@@ -82,8 +82,10 @@ int main()
 
         EASYCAT.MainTask(); // execute the EasyCAT task
 
-        EASYCAT.BufferIn.Cust.status_in = 1;
+        EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
+
+        // * TODO Print out values every 5 seconds
 
         usleep(100000); // delay of 100mS
     }
