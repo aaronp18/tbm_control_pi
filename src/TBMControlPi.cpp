@@ -17,12 +17,18 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <math.h>
 
 #include "TBMControlPi.h"
 
 #include "EasyCAT.h" // EasyCAT library to interface
 
+#include "../Adafruit_ADS1015.h" // Adafruit ADS1015 library
+
 EasyCAT EASYCAT; // EasyCAT istantiation
+
+Adafruit_ADS1015 ads0(0x48); // ADC0
+Adafruit_ADS1015 ads1(0x49); // ADC1
 
 // The constructor allow us to choose the pin used for the EasyCAT HAT chip select
 // Without any parameter pin 24 (CE0) will be used
@@ -85,8 +91,6 @@ int main()
         EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
 
-        // * TODO Print out values every 5 seconds
-
         usleep(100000); // delay of 100mS
     }
 }
@@ -94,6 +98,22 @@ int main()
 // * Reads the values of the ADC and saves them to local variables.
 void readValues()
 {
+    // * Read the values from the ADCs
+    methaneADC = ads0.readADC_SingleEnded(0);
+    temperatureADC = ads0.readADC_SingleEnded(1);
+    inclinometer0ADC = ads1.readADC_SingleEnded(0); // X
+    inclinometer1ADC = ads1.readADC_SingleEnded(1); // Y
+    inclinometer2ADC = ads1.readADC_SingleEnded(2); // Pitch
+
+    // * Convert the values to the correct units
+
+    EASYCAT.BufferIn.Cust.temperature = getThermistorTemp(temperatureADC);
+
+    EASYCAT.BufferIn.Cust.methane = getMethaneConc(methaneADC);
+
+    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
 }
 
 // * Sets up the ADCs with the appropriate addresses
@@ -101,4 +121,42 @@ void initADCs()
 {
     // ADC0 has addr 0x48
     // ADC1 has addr 0x49
+
+    ads0.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+    ads1.setGain(GAIN_TWOTHRIDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
+
+    ads0.begin();
+    ads1.begin();
+
+}
+
+int32_t getThermistorTemp(int32_t temperatureADC)
+{
+    //ADC to voltage
+    int32_t Vout = temperatureADC * 3 / 32768; //1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+
+    //voltage to resistance resistance
+    int32_t R = 10000; // R = 10k
+    int32_t Rt = 5 * R / Vout - R; // Vs = 5
+
+    //resistance to temperature
+    int32_t r0 = 10000;
+    int32_t t0 = 25;
+    int32_t b = 3950;
+    int32_t t = 100 * (1 / (1 / (t0 + 273.15) + log(rt / r0) / b) - 273.15); // 100 * C
+    return t;
+}
+
+int32_t getMethaneConc(int32_t methaneADC)
+{
+    //ADC to voltage
+    int32_t Vout = methaneADC * 3 / 32768; //1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+
+    //voltage to resistance resistance
+    int32_t R = 20000; // R = 20k
+    int32_t Rm = 5 * R / Vout - R; // Vs = 5
+
+    //resistance to temperature
+    int32_t ppm = 1021 * pow((Rm/R), -2.7887);
+    return ppm;
 }
