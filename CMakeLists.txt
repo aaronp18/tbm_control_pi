@@ -4,7 +4,7 @@ project(TBMControl VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CUSTOM 1)
+set(CUSTOM)
 
 # FIND_PACKAGE( OpenCV REQUIRED )   
 # include_directories( ${OpenCV_INCLUDE_DIRS} )  
@@ -17,7 +17,8 @@ include_directories(TBMControl PRIVATE
 
 add_executable(TBMControl
   ${CMAKE_SOURCE_DIR}/src/TBMControlPi.cpp
+  ${CMAKE_SOURCE_DIR}/src/EasyCAT.cpp
 )
 
 # target_link_libraries( TBMControl ${OpenCV_LIBS} )
-target_link_libraries( TBMControl )
+target_link_libraries( TBMControl bcm2835 )

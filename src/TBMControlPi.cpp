@@ -18,28 +18,11 @@
 #include <unistd.h>
 #include <stdint.h>
 
+#define CUSTOM
+
 #include "TBMControlPi.h"
 
-//---- AB&T EasyCAT shield custom application example  ---------------------------------------
 
-// This is the legacy "TestEasyCAT" example but the variables have been
-// customized using the Easy Configuration tool.
-// To understand how to do this please see the Easy Configurator user manual.
-//
-//
-// The input variables used in this example are:
-//
-//		uint16_t    Analog_0                The first analog input
-//		uint16_t    Analog_1                The second analog input
-//		uint8_t     DipSwitches             The four dip switches
-//		uint8_t     Bit8_FallingTestRamp    A falling test ramp
-//		uint16_t    Bit16_RisingTestRamp    A rising test ramp
-//
-// And the output:
-//
-//		uint8_t     Leds;                   The four leds
-
-//*********************************************************************************************
 
 #include "EasyCAT.h" // EasyCAT library to interface
 
@@ -103,11 +86,11 @@ int main()
         ContaUp++;   // we increment the variable ContaUp
         ContaDown--; // and decrement ContaDown
 
-        EASYCAT.BufferIn.Cust.Analog_0 = 1234;
-        EASYCAT.BufferIn.Cust.Analog_1 = 5678;
-        EASYCAT.BufferIn.Cust.DipSwitches = 5;
-        EASYCAT.BufferIn.Cust.Bit16_RisingTestRamp = ContaUp;   // medium speed rising slope
-        EASYCAT.BufferIn.Cust.Bit8_FallingTestRamp = ContaDown; // medium speed falling slope
+        // EASYCAT.BufferIn.Cust.Analog_0 = 1234;
+        // EASYCAT.BufferIn.Cust.Analog_1 = 5678;
+        // EASYCAT.BufferIn.Cust.DipSwitches = 5;
+        // EASYCAT.BufferIn.Cust.Bit16_RisingTestRamp = ContaUp;   // medium speed rising slope
+        // EASYCAT.BufferIn.Cust.Bit8_FallingTestRamp = ContaDown; // medium speed falling slope
 
         if (OutCount > 20)
         {
@@ -115,7 +98,7 @@ int main()
 
             OutCount = 0;
 
-            printf("Leds = %d\n", EASYCAT.BufferOut.Cust.Leds);
+            // printf("Leds = %d\n", EASYCAT.BufferOut.Cust.Leds);
         }
 
         OutCount++;
