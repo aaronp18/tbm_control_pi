@@ -105,7 +105,9 @@ void readValues()
     inclinometer2ADC = ads1.readADC_SingleEnded(2); // Pitch
 
     // * Convert the values to the correct units
-    EASYCAT.BufferIn.Cust.temperature = temperatureADC;
+
+    EASYCAT.BufferIn.Cust.temperature = getThermistorTemp(temperatureADC);
+
     EASYCAT.BufferIn.Cust.methane = methaneADC;
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC;
@@ -124,4 +126,22 @@ void initADCs()
     ads0.begin();
     ads1.begin();
 
+}
+
+int32_t getThermistorTemp(int32_t temperatureADC)
+{
+    //ADC to voltage
+    int32_t Vout = temperatureADC * 3 / 32768; //1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+
+    //voltage to resistance resistance
+    int32_t R = 10000; // R = 10k
+    int32_t Rt = 5 * R / Vout - R; // Vs = 5
+    int32_t temp = 0;
+
+    //resistance to temperature
+    int32_t r0 = 10000;
+    int32_t t0 = 25;
+    int32_t b = 3950;
+    int32_t t = 1 / (1 / (t0 + 273.15) + log(rt / r0) / b) - 273.15;
+    return t;
 }
