@@ -111,9 +111,9 @@ void readValues()
 
     EASYCAT.BufferIn.Cust.methane = getMethaneConc(methaneADC);
 
-    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC;
-    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC;
-    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC;
+    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
 }
 
 // * Sets up the ADCs with the appropriate addresses
