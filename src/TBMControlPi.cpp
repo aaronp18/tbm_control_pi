@@ -110,7 +110,7 @@ void readValues()
     EASYCAT.BufferIn.Cust.temperature = getThermistorTemp(temperatureADC);
 
     EASYCAT.BufferIn.Cust.methane = getMethaneConc(methaneADC);
-    
+
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC;
     EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC;
@@ -143,7 +143,7 @@ int32_t getThermistorTemp(int32_t temperatureADC)
     int32_t r0 = 10000;
     int32_t t0 = 25;
     int32_t b = 3950;
-    int32_t t = 1 / (1 / (t0 + 273.15) + log(rt / r0) / b) - 273.15;
+    int32_t t = 100 * (1 / (1 / (t0 + 273.15) + log(rt / r0) / b) - 273.15); // 100 * C
     return t;
 }
 
