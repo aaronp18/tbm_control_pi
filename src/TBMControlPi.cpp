@@ -45,6 +45,8 @@ int16_t temperatureADC, methaneADC, inclinometer0ADC, inclinometer1ADC, inclinom
 
 unsigned short OutCount = 0;
 
+int c = 0;
+
 int main()
 {
     char cValue; // used to read the output buffer
@@ -63,6 +65,9 @@ int main()
         printf("inizialization failed\n"); // the EasyCAT board was not recognized
         return -1;
     }
+
+    initADCs();
+
     // In the main loop we must call ciclically the
     // EasyCAT task and our application
     //
@@ -91,6 +96,8 @@ int main()
         EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
 
+        readValues();
+
         usleep(100000); // delay of 100mS
     }
 }
@@ -98,6 +105,7 @@ int main()
 // * Reads the values of the ADC and saves them to local variables.
 void readValues()
 {
+
     // * Read the values from the ADCs
     methaneADC = ads0.readADC_SingleEnded(0);
     temperatureADC = ads0.readADC_SingleEnded(1);
@@ -114,6 +122,8 @@ void readValues()
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
+
+    printf("Temperature: %d\n", EASYCAT.BufferIn.Cust.temperatureTBM);
 }
 
 // * Sets up the ADCs with the appropriate addresses
@@ -122,11 +132,13 @@ void initADCs()
     // ADC0 has addr 0x48
     // ADC1 has addr 0x49
 
+    printf("Setting up ADCs...\n");
     ads0.setGain(GAIN_TWOTHIRDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
     ads1.setGain(GAIN_TWOTHIRDS); // 0.66x gain   +/- 6.144V  1 bit = 3mV
 
     ads0.begin();
     ads1.begin();
+    printf("ADCs setup.\n");
 }
 
 int32_t getThermistorTemp(int32_t mtemperatureADC)
@@ -134,10 +146,15 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
     // ADC to voltage
     int32_t Vout = mtemperatureADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
-    // voltage to resistance resistance
-    int32_t R = 10000;             // R = 10k
-    int32_t Rt = 5 * R / Vout - R; // Vs = 5
+    // Check for zero (not connected)
+    if (Vout == 0)
+    {
+        return 0;
+    }
 
+    // voltage to resistance resistance
+    int32_t R = 10000;                   // R = 10k
+    int32_t Rt = ((5 * R) / (Vout)) - R; // Vs = 5
     // resistance to temperature
     int32_t r0 = 10000;
     int32_t t0 = 25;
@@ -150,6 +167,11 @@ int32_t getMethaneConc(int32_t mmethaneADC)
 {
     // ADC to voltage
     int32_t Vout = mmethaneADC * 3 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+
+    if (Vout == 0)
+    {
+        return 0;
+    }
 
     // voltage to resistance resistance
     int32_t R = 20000;             // R = 20k
