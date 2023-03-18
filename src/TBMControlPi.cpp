@@ -20,8 +20,6 @@
 
 #include "TBMControlPi.h"
 
-
-
 #include "EasyCAT.h" // EasyCAT library to interface
 
 EasyCAT EASYCAT; // EasyCAT istantiation
@@ -36,6 +34,8 @@ EasyCAT EASYCAT; // EasyCAT istantiation
 
 uint16_t ContaUp;  // used for sawthoot test generation
 uint8_t ContaDown; //
+
+int16_t temperatureADC, methaneADC, inclinometer0ADC, inclinometer1ADC, inclinometer2ADC;
 
 unsigned short OutCount = 0;
 
@@ -77,30 +77,26 @@ int main()
 
     while (1)
     {
+
+        // Send value
+
         EASYCAT.MainTask(); // execute the EasyCAT task
 
-        // --- test sawtooth generation ---
-
-        ContaUp++;   // we increment the variable ContaUp
-        ContaDown--; // and decrement ContaDown
-
-        // EASYCAT.BufferIn.Cust.Analog_0 = 1234;
-        // EASYCAT.BufferIn.Cust.Analog_1 = 5678;
-        // EASYCAT.BufferIn.Cust.DipSwitches = 5;
-        // EASYCAT.BufferIn.Cust.Bit16_RisingTestRamp = ContaUp;   // medium speed rising slope
-        // EASYCAT.BufferIn.Cust.Bit8_FallingTestRamp = ContaDown; // medium speed falling slope
-
-        if (OutCount > 20)
-        {
-            // Print every 2 seconds on consolle the values of byte[0], byte[1], byte[2] and byte[3] received from the Master
-
-            OutCount = 0;
-
-            // printf("Leds = %d\n", EASYCAT.BufferOut.Cust.Leds);
-        }
-
-        OutCount++;
+        EASYCAT.BufferIn.Cust.status_in = 1;
+        // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
 
         usleep(100000); // delay of 100mS
     }
+}
+
+// * Reads the values of the ADC and saves them to local variables.
+void readValues()
+{
+}
+
+// * Sets up the ADCs with the appropriate addresses
+void initADCs()
+{
+    // ADC0 has addr 0x48
+    // ADC1 has addr 0x49
 }
