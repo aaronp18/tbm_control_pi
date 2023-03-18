@@ -5,6 +5,8 @@ add_executable(TBMControlPi tbmcontrolpi.cpp)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CUSTOM 1)
+
 # FIND_PACKAGE( OpenCV REQUIRED )   
 # include_directories( ${OpenCV_INCLUDE_DIRS} )  
 

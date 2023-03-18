@@ -16,11 +16,32 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdint.h>
+
+#include "TBMControlPi.h"
+
+//---- AB&T EasyCAT shield custom application example  ---------------------------------------
+
+// This is the legacy "TestEasyCAT" example but the variables have been
+// customized using the Easy Configuration tool.
+// To understand how to do this please see the Easy Configurator user manual.
+//
+//
+// The input variables used in this example are:
+//
+//		uint16_t    Analog_0                The first analog input
+//		uint16_t    Analog_1                The second analog input
+//		uint8_t     DipSwitches             The four dip switches
+//		uint8_t     Bit8_FallingTestRamp    A falling test ramp
+//		uint16_t    Bit16_RisingTestRamp    A rising test ramp
+//
+// And the output:
+//
+//		uint8_t     Leds;                   The four leds
+
+//*********************************************************************************************
 
 #include "EasyCAT.h" // EasyCAT library to interface
-
-#define LOBYTE(x) ((unsigned char)((x)&0xff))
-#define HIBYTE(x) ((unsigned char)((x) >> 8 & 0xff))
 
 EasyCAT EASYCAT; // EasyCAT istantiation
 
@@ -32,8 +53,8 @@ EasyCAT EASYCAT; // EasyCAT istantiation
 
 // Remember that the board must be modified to match the pin chosen
 
-unsigned short ContaUp;   // used for sawthoot test generation
-unsigned short ContaDown; //
+uint16_t ContaUp;  // used for sawthoot test generation
+uint8_t ContaDown; //
 
 unsigned short OutCount = 0;
 
@@ -82,22 +103,11 @@ int main()
         ContaUp++;   // we increment the variable ContaUp
         ContaDown--; // and decrement ContaDown
 
-        // we use these variables to create sawtooth,
-        // with different slopes and periods, for
-        // test pourpose, in input Bytes 2,3,4,5,30,31
-
-        EASYCAT.BufferIn.Byte[2] = LOBYTE(ContaUp); // slow rising slope
-        EASYCAT.BufferIn.Byte[3] = HIBYTE(ContaUp); // extremly slow rising slope
-
-        EASYCAT.BufferIn.Byte[4] = LOBYTE(ContaDown); // slow falling slope
-        EASYCAT.BufferIn.Byte[5] = HIBYTE(ContaDown); // extremly slow falling slope
-
-        EASYCAT.BufferIn.Byte[30] = LOBYTE(ContaUp) << 2;   // medium speed rising slope
-        EASYCAT.BufferIn.Byte[31] = LOBYTE(ContaDown) << 2; // medium speed falling slope
-
-        // --- eight bits management ---
-
-        cValue = EASYCAT.BufferOut.Byte[0]; // we read the input bit status reading the first byte from output buffer
+        EASYCAT.BufferIn.Cust.Analog_0 = 1234;
+        EASYCAT.BufferIn.Cust.Analog_1 = 5678;
+        EASYCAT.BufferIn.Cust.DipSwitches = 5;
+        EASYCAT.BufferIn.Cust.Bit16_RisingTestRamp = ContaUp;   // medium speed rising slope
+        EASYCAT.BufferIn.Cust.Bit8_FallingTestRamp = ContaDown; // medium speed falling slope
 
         if (OutCount > 20)
         {
@@ -105,10 +115,7 @@ int main()
 
             OutCount = 0;
 
-            printf("Byte[0] = %d\n", EASYCAT.BufferOut.Byte[0]);
-            printf("Byte[1] = %d\n", EASYCAT.BufferOut.Byte[1]);
-            printf("Byte[2] = %d\n", EASYCAT.BufferOut.Byte[2]);
-            printf("Byte[3] = %d\n\n", EASYCAT.BufferOut.Byte[3]);
+            printf("Leds = %d\n", EASYCAT.BufferOut.Cust.Leds);
         }
 
         OutCount++;
