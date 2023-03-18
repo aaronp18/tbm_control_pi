@@ -4,7 +4,9 @@ project(TBMControl VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(CUSTOM)
+set(CMAKE_CXX_FLAGS "-DCUSTOM")
+
+
 
 # FIND_PACKAGE( OpenCV REQUIRED )   
 # include_directories( ${OpenCV_INCLUDE_DIRS} )  

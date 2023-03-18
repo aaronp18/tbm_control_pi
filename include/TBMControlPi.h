@@ -3,4 +3,6 @@
 
 #include "tbmcontrolpi_EasyCAT.h"
 
+#define CUSTOM
+
 #endif /* E2E62227_CB6B_4D58_B517_089EC0C9C4C2 */

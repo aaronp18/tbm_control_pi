@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <bcm2835.h>
 
-#if (defined CUSTOM)
+#ifdef CUSTOM
 // #include "TestEasyCAT_Custom.h"
 #include "tbmcontrolpi_EasyCAT.h"
 
@@ -38,7 +38,8 @@
 
 #if (!defined BYTE_NUM && !defined CUSTOM) // if BYTE_NUM is not declared in the .ino file
 #define BYTE_NUM 32                        // set it to the 32+32 byte default
-#endif                                     // this is for compatibility with old applications
+#error "Not Custom"
+#endif // this is for compatibility with old applications
 
 //-- the preprocessor calculates the parameters necessary to transfer out data ---
 
