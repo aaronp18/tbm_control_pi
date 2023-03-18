@@ -2,11 +2,11 @@ tbmcontrolpi
 OUTPUTS_TAG
 temperatureTBM
 int32_t
-inclionmeter0
+inclinometer0
 int32_t
-inclionmeter1
+inclinometer1
 int32_t
-inclionmeter2
+inclinometer2
 int32_t
 methane
 int32_t
@@ -35,6 +35,6 @@ INFO_TAG
 0x99999999
 Warwick Boring
 0x00000001
-0x00000002
+0x00000003
 TBMControlPi
 END_TAG

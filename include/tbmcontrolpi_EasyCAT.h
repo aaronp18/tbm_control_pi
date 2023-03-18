@@ -1,7 +1,5 @@
-#ifndef E52B2660_6331_4907_926A_34D13AB2ED12
-#define E52B2660_6331_4907_926A_34D13AB2ED12
-#ifndef CUSTOM_PDO_NAME_H
-#define CUSTOM_PDO_NAME_H
+#ifndef D9ADB6CC_E976_41FA_B78E_314D36CED5F7
+#define D9ADB6CC_E976_41FA_B78E_314D36CED5F7
 
 //-------------------------------------------------------------------//
 //                                                                   //
@@ -22,9 +20,9 @@ typedef union //---- output buffer ----
 	struct
 	{
 		int32_t temperatureTBM;
-		int32_t inclionmeter0;
-		int32_t inclionmeter1;
-		int32_t inclionmeter2;
+		int32_t inclinometer0;
+		int32_t inclinometer1;
+		int32_t inclinometer2;
 		int32_t methane;
 		int32_t output0;
 		int32_t output1;
@@ -47,6 +45,4 @@ typedef union //---- input buffer ----
 	} Cust;
 } PROCBUFFER_IN;
 
-#endif
-
-#endif /* E52B2660_6331_4907_926A_34D13AB2ED12 */
+#endif /* D9ADB6CC_E976_41FA_B78E_314D36CED5F7 */

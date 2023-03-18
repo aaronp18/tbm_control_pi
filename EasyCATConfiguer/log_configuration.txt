@@ -1,7 +1,7 @@
 
 Easy Configurator, configuration engine  V_3_3 
 
-log created on Sat Mar 18 14:28:55 2023
+log created on Sat Mar 18 14:37:24 2023
 
 Analyzing the project file
 
@@ -9,9 +9,9 @@ Easy Configurator project tbmcontrolpi.prj
 
 OUTPUTS_TAG
 Line 4 --- temperatureTBM          int32_t
-Line 5 --- inclionmeter0           int32_t
-Line 6 --- inclionmeter1           int32_t
-Line 7 --- inclionmeter2           int32_t
+Line 5 --- inclinometer0           int32_t
+Line 6 --- inclinometer1           int32_t
+Line 7 --- inclinometer2           int32_t
 Line 8 --- methane                 int32_t
 Line 9 --- output0                 int32_t
 Line 10 --- output1                 int32_t
@@ -28,7 +28,7 @@ INFO_TAG
 0x99999999
 Warwick Boring
 0x00000001
-0x00000002
+0x00000003
 TBMControlPi
 TBMControlPi
 END_TAG
@@ -46,7 +46,7 @@ PROJECT_TAG   tbmcontrolpi.prj
 VENDOID_TAG   99999999
 VEN_NAM_TAG   Warwick Boring
 PRO_COD_TAG   00000001
-REVISIO_TAG   00000002
+REVISIO_TAG   00000003
 DEV_NAM_TAG   TBMControlPi
 DEV_NAM_TAG   TBMControlPi
 
@@ -64,21 +64,21 @@ Output entries
             <Index>#x5</Index>
             <SubIndex>2</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclionmeter0</Name>
+            <Name>inclinometer0</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
             <SubIndex>3</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclionmeter1</Name>
+            <Name>inclinometer1</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
             <Index>#x5</Index>
             <SubIndex>4</SubIndex>
             <BitLen>32</BitLen>
-            <Name>inclionmeter2</Name>
+            <Name>inclinometer2</Name>
             <DataType>DINT</DataType>
           </Entry>
           <Entry>
@@ -175,9 +175,9 @@ Creating the tbmcontrolpi.h file
 
 Output entries
 		int32_t     temperatureTBM;
-		int32_t     inclionmeter0;
-		int32_t     inclionmeter1;
-		int32_t     inclionmeter2;
+		int32_t     inclinometer0;
+		int32_t     inclinometer1;
+		int32_t     inclinometer2;
 		int32_t     methane;
 		int32_t     output0;
 		int32_t     output1;
