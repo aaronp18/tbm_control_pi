@@ -1,5 +1,7 @@
-#ifndef F315A1B6_CA80_4D87_A24D_92C602D5D0D5
-#define F315A1B6_CA80_4D87_A24D_92C602D5D0D5
+#ifndef E52B2660_6331_4907_926A_34D13AB2ED12
+#define E52B2660_6331_4907_926A_34D13AB2ED12
+#ifndef CUSTOM_PDO_NAME_H
+#define CUSTOM_PDO_NAME_H
 
 //-------------------------------------------------------------------//
 //                                                                   //
@@ -45,4 +47,6 @@ typedef union //---- input buffer ----
 	} Cust;
 } PROCBUFFER_IN;
 
-#endif /* F315A1B6_CA80_4D87_A24D_92C602D5D0D5 */
+#endif
+
+#endif /* E52B2660_6331_4907_926A_34D13AB2ED12 */

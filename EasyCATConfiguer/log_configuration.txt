@@ -1,7 +1,7 @@
 
 Easy Configurator, configuration engine  V_3_3 
 
-log created on Sat Mar 18 14:21:55 2023
+log created on Sat Mar 18 14:28:55 2023
 
 Analyzing the project file
 
@@ -28,7 +28,7 @@ INFO_TAG
 0x99999999
 Warwick Boring
 0x00000001
-0x00000001
+0x00000002
 TBMControlPi
 TBMControlPi
 END_TAG
@@ -46,7 +46,7 @@ PROJECT_TAG   tbmcontrolpi.prj
 VENDOID_TAG   99999999
 VEN_NAM_TAG   Warwick Boring
 PRO_COD_TAG   00000001
-REVISIO_TAG   00000001
+REVISIO_TAG   00000002
 DEV_NAM_TAG   TBMControlPi
 DEV_NAM_TAG   TBMControlPi
 

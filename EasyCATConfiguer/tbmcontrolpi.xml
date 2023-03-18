@@ -53,7 +53,7 @@
 <!-- ************************************************************************************** -->   
 
       <Device Physics="YY">
-        <Type ProductCode="#x00000001" RevisionNo="#x00000001" CheckRevisionNo="EQ_OR_G">TBMControlPi</Type>
+        <Type ProductCode="#x00000001" RevisionNo="#x00000002" CheckRevisionNo="EQ_OR_G">TBMControlPi</Type>
         <Name LcId="1033"><![CDATA[TBMControlPi]]></Name>        
         <GroupType>SSC_Device</GroupType>
 
