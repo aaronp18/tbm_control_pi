@@ -198,13 +198,22 @@ int32_t getMethaneConc(int32_t mmethaneADC)
     return (int32_t)ppm_double;
 }
 
-int32_t getPiTemperature()
+int32_t getPiTemperature() //returns intmin if error
 {
     return -1;
     FILE *temperatureFile;
     double T;
     temperatureFile = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
-    fscanf(temperatureFile, "%lf", &T);
+    if (temperatureFile == NULL)
+    {
+        return -2147483648;
+    }
+    if (fscanf(temperatureFile, "%lf", &T) != 1)
+    {
+        fclose(temperatureFile);
+        return -2147483648;
+    }
+    fclose(temperatureFile);
     T /= 10; // To get in 1/100th of a degree
     return T;
 }
