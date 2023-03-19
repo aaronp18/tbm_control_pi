@@ -88,17 +88,15 @@ int main()
 
         EASYCAT.MainTask(); // execute the EasyCAT task
 
-             EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
+        EASYCAT.BufferIn.Cust.temperatureTBM = temperatureADC;
         // * TODO Set buffer in for temperature, methane and inclinometers (and pi temperature) here
 
         readValues();
 
         EASYCAT.BufferIn.Cust.status_in = 1;
 
-        if (i > 50)
+        if (i > 25)
         {
-            i = 0;
-            printf("=========\n");
             printf("| Status: %d\t| ", EASYCAT.BufferOut.Cust.status_out);
             printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
             printf(" Pi Temperature: %d\t|", EASYCAT.BufferIn.Cust.input0);
@@ -106,7 +104,7 @@ int main()
             printf(" Inclinometer0: %d\t|", EASYCAT.BufferIn.Cust.inclinometer0);
             printf(" Inclinometer1: %d\t|", EASYCAT.BufferIn.Cust.inclinometer1);
             printf(" Inclinometer2: %d\t|", EASYCAT.BufferIn.Cust.inclinometer2);
-            printf("\n\n");
+            printf("\n");
         }
         i++;
 
@@ -160,8 +158,6 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
     // ADC to voltage
     double Vout = mtemperatureADC * 6.144 / 32768.0; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
     // double Vout = mtemperatureADC;
-
-    cout << "Temp: " << Vout << "\t";
 
     // Check for zero (not connected)
     if (abs(Vout) < 0.01)
