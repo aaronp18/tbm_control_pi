@@ -163,7 +163,7 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
     // Check for zero (not connected)
     if (abs(Vout) < 0.01)
     {
-        return 0;
+        return -320000;
     }
 
     // voltage to resistance resistance
@@ -184,9 +184,9 @@ int32_t getMethaneConc(int32_t mmethaneADC)
     // ADC to voltage
     double Vout = mmethaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
-    if (Vout == 0)
+    if (abs(Vout) < 0.01)
     {
-        return 0;
+        return -320000;
     }
 
     // voltage to resistance resistance
@@ -198,13 +198,21 @@ int32_t getMethaneConc(int32_t mmethaneADC)
     return (int32_t)ppm_double;
 }
 
-int32_t getPiTemperature()
+int32_t getPiTemperature() // returns intmin if error
 {
-    return -1;
     FILE *temperatureFile;
     double T;
     temperatureFile = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
-    fscanf(temperatureFile, "%lf", &T);
+    if (temperatureFile == NULL)
+    {
+        return -320000;
+    }
+    if (fscanf(temperatureFile, "%lf", &T) != 1)
+    {
+        fclose(temperatureFile);
+        return -320000;
+    }
+    fclose(temperatureFile);
     T /= 10; // To get in 1/100th of a degree
     return T;
 }
