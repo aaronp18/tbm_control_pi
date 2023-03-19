@@ -97,6 +97,7 @@ int main()
 
         if (i > 25)
         {
+	    i = 0;
             printf("| Status: %d\t| ", EASYCAT.BufferOut.Cust.status_out);
             printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
             printf(" Pi Temperature: %d\t|", EASYCAT.BufferIn.Cust.input0);
