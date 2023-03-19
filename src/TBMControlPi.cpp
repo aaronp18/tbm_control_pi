@@ -97,7 +97,7 @@ int main()
 
         if (i > 25)
         {
-	    i = 0;
+            i = 0;
             printf("| Status: %d\t| ", EASYCAT.BufferOut.Cust.status_out);
             printf(" Temperature: %d\t|", EASYCAT.BufferIn.Cust.temperatureTBM);
             printf(" Pi Temperature: %d\t|", EASYCAT.BufferIn.Cust.input0);
@@ -200,6 +200,7 @@ int32_t getMethaneConc(int32_t mmethaneADC)
 
 int32_t getPiTemperature()
 {
+    return -1;
     FILE *temperatureFile;
     double T;
     temperatureFile = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
