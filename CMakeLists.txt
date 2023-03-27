@@ -25,4 +25,4 @@ add_executable(TBMControl
 )
 
 # target_link_libraries( TBMControl ${OpenCV_LIBS} )
-target_link_libraries( TBMControl bcm2835 wiringPi )
+target_link_libraries( TBMControl bcm2835 wiringPi paho-mqttpp3 paho-mqtt3as )
