@@ -8,11 +8,16 @@ const char * const BoolToString(bool b)
 
 class MQTT {
     private:
-        std::string ip = "localhost:1883"; //TODO: change to real IP
+        std::string ip; //TODO: change to real IP
         std::string team = "Warwick Boring";
         uint timestamp;
         std::string msg;
     public:
+
+        MQTT(std::string ip = "localhost:1883") {
+            this->ip = ip;
+        }
+
         int send(bool mining, float latitude, float longitude, float heading_deg, float depth_m, float length_m) {
             mqtt::client client(ip, "publisher", mqtt::create_options(MQTTVERSION_5));
             client.connect();

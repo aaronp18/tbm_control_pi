@@ -30,6 +30,8 @@ using namespace std;
 
 #include "Adafruit_ADS1015.h" // Adafruit ADS1015 library
 
+#include "MQTT.h"
+
 EasyCAT EASYCAT; // EasyCAT istantiation
 
 Adafruit_ADS1115 ads0(0x48); // ADC0
