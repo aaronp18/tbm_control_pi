@@ -46,6 +46,7 @@ Adafruit_ADS1115 ads1(0x49); // ADC1
 int16_t temperatureADC, methaneADC, inclinometer0ADC, inclinometer1ADC, inclinometer2ADC;
 
 int i = 0;
+int beat = 0;
 
 int main()
 {
@@ -94,6 +95,9 @@ int main()
         readValues();
 
         EASYCAT.BufferIn.Cust.status_in = 1;
+
+        EASYCAT.BufferOut.Cust.status_out = beat;
+        beat = !beat;
 
         if (i > 25)
         {
