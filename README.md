@@ -37,3 +37,42 @@ So if You use a Raspberry Pi 4 or higher in the example
 application change the value
 BCM2835_SPI_CLOCK_DIVIDER_16 to
 BCM2835_SPI_CLOCK_DIVIDER_32.
+
+## install paho mqtt
+
+get packages
+
+```
+sudo apt-get install build-essential gcc make cmake cmake-gui cmake-curses-gui
+```
+```
+sudo apt-get install libssl-dev
+```
+```
+sudo apt-get install doxygen graphviz
+```
+
+### install paho C lib
+
+```
+git clone https://github.com/eclipse/paho.mqtt.c.git
+cd paho.mqtt.c
+git checkout v1.3.8
+
+cmake -Bbuild -H. -DPAHO_ENABLE_TESTING=OFF -DPAHO_BUILD_STATIC=ON \
+    -DPAHO_WITH_SSL=ON -DPAHO_HIGH_PERFORMANCE=ON
+sudo cmake --build build/ --target install
+sudo ldconfig
+```
+
+### install paho C++ lib
+
+```
+git clone https://github.com/eclipse/paho.mqtt.cpp
+cd paho.mqtt.cpp
+
+cmake -Bbuild -H. -DPAHO_BUILD_STATIC=ON \
+    -DPAHO_BUILD_DOCUMENTATION=TRUE -DPAHO_BUILD_SAMPLES=TRUE
+sudo cmake --build build/ --target install
+sudo ldconfig
+```
