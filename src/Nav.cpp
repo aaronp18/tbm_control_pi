@@ -19,9 +19,6 @@ class Nav {
         }
 
         void updateNav(double distance_m) {
-
-            
-
             length_m += distance_m;
             float heading_rad = heading_deg * M_PI / 180;
             float lat_rad = latitude * M_PI / 180;
