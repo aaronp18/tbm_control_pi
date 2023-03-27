@@ -24,9 +24,3 @@ class MQTT {
             return (0); //success
         }
 };
-
-int main() {
-    MQTT mqtt;
-    mqtt.send(true, 1.0, 2.0, 3.0, 4.0, 5.0);
-    return 0;
-}
