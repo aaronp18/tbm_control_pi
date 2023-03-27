@@ -94,9 +94,7 @@ int main()
 
         readValues();
 
-        EASYCAT.BufferIn.Cust.status_in = 1;
-
-        EASYCAT.BufferOut.Cust.status_out = beat;
+        EASYCAT.BufferIn.Cust.status_in = beat;
         beat = !beat;
 
         if (i > 25)
