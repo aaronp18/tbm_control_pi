@@ -136,10 +136,10 @@ void readValues()
 
     EASYCAT.BufferIn.Cust.methane = getMethaneConc(methaneADC);
 
-    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 3 / 32768;
-    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 3 / 32768;
-    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 3 / 32768;
-
+    EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 6.144 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 6.144 / 32768;
+    EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 6.144 / 32768;
+mtemperatureADC
     EASYCAT.BufferIn.Cust.input0 = getPiTemperature();
 }
 
@@ -172,7 +172,7 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
 
     // voltage to resistance resistance
     double R = 10000;                     // R = 10k
-    double Rt = ((VDD * R) / (Vout)) - R; // Vs = 5
+    double Rt = ((VDD * R) / (Vout)) - R; // Vs = 5.3
 
     // resistance to temperature
     double r0 = 10000;
@@ -229,7 +229,7 @@ void printAllADC()
     std::cout << "A0-3: " << ads0.readADC_SingleEnded(3) << "\t";
 
     std::cout << "A1-0: " << ads1.readADC_SingleEnded(0) << "\t";
-    std::cout << "A1-1: " << ads1.readADC_SingleEnded(1) << "\t";
+    std::cout << "A1-1: " << ads1.reameGVLdADC_SingleEnded(1) << "\t";
     std::cout << "A1-2: " << ads1.readADC_SingleEnded(2) << "\t";
     std::cout << "A1-3: " << ads1.readADC_SingleEnded(3) << "\t";
 
