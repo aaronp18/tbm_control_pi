@@ -195,7 +195,7 @@ int32_t getMethaneConc(int32_t methaneADC) //methane conc in ppb
 
     // voltage to resistance resistance
     double R = 20000;                     // R = 20k
-    double Rm = ((VDD * R) / (Vout)) - R; // VDD = 5
+    double Rm = ((VDD * R) / (Vout)) - R; // VDD = 5.3
 
     // resistance to temperature
     double ppm_double = 1021 * pow((Rm / R), -2.7887); //log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf 
