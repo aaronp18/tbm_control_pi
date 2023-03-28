@@ -183,10 +183,10 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
     return (int32_t)t_double;
 }
 
-int32_t getMethaneConc(int32_t mmethaneADC)
+int32_t getMethaneConc(int32_t methaneADC) //methane conc in ppb
 {
     // ADC to voltage
-    double Vout = mmethaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
+    double Vout = methaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
 
     if (abs(Vout) < 0.01)
     {
@@ -195,11 +195,11 @@ int32_t getMethaneConc(int32_t mmethaneADC)
 
     // voltage to resistance resistance
     double R = 20000;                     // R = 20k
-    double Rm = ((VDD * R) / (Vout)) - R; // Vs = 5
+    double Rm = ((VDD * R) / (Vout)) - R; // VDD = 5
 
     // resistance to temperature
-    double ppm_double = 1021 * pow((Rm / R), -2.7887);
-    return (int32_t)ppm_double;
+    double ppm_double = 1021 * pow((Rm / R), -2.7887); //log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf 
+    return (int32_t) (ppm_double * 1000); //methane conc in ppb
 }
 
 int32_t getPiTemperature() // returns intmin if error
