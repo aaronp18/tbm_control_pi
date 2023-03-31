@@ -230,7 +230,7 @@ void printAllADC()
     std::cout << "A0-3: " << ads0.readADC_SingleEnded(3) << "\t";
 
     std::cout << "A1-0: " << ads1.readADC_SingleEnded(0) << "\t";
-    std::cout << "A1-1: " << ads1.reameGVLdADC_SingleEnded(1) << "\t";
+    std::cout << "A1-1: " << ads1.readADC_SingleEnded(1) << "\t";
     std::cout << "A1-2: " << ads1.readADC_SingleEnded(2) << "\t";
     std::cout << "A1-3: " << ads1.readADC_SingleEnded(3) << "\t";
 
