@@ -202,7 +202,7 @@ int32_t getMethaneConc(int32_t methaneADC) // methane conc in ppb
 
     // resistance to temperature
     double ppm_double = 1021 * pow((Rm / R), -2.7887); // log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf
-    cout << "R ratio: " << cout << "ppm: " << ppm_double << " \n";
+    cout << "R ratio: " << (Rm / R) << "ppm: " << ppm_double << " \n";
     return (int32_t)(ppm_double * 1000); // methane conc in ppb
 }
 
