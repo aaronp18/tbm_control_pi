@@ -9,6 +9,7 @@ set(CMAKE_CXX_FLAGS "-DCUSTOM")
 OPTION(DO_MQTT "Enable MQTT" OFF) # Enabled by default
 IF(DO_MQTT)
     ADD_DEFINITIONS(-DDO_MQTT)
+    target_link_libraries( TBMControl paho-mqttpp3 paho-mqtt3as )
 ENDIF(DO_MQTT)
 
 
@@ -29,4 +30,4 @@ add_executable(TBMControl
 )
 
 # target_link_libraries( TBMControl ${OpenCV_LIBS} )
-target_link_libraries( TBMControl bcm2835 wiringPi paho-mqttpp3 paho-mqtt3as )
+target_link_libraries( TBMControl bcm2835 wiringPi)
