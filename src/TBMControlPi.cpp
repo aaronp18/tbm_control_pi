@@ -30,7 +30,9 @@ using namespace std;
 
 #include "Adafruit_ADS1015.h" // Adafruit ADS1015 library
 
+#ifdef DO_MQTT
 #include "MQTT.h"
+#endif
 
 EasyCAT EASYCAT; // EasyCAT istantiation
 
@@ -139,7 +141,6 @@ void readValues()
     EASYCAT.BufferIn.Cust.inclinometer0 = inclinometer0ADC * 6.144 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer1 = inclinometer1ADC * 6.144 / 32768;
     EASYCAT.BufferIn.Cust.inclinometer2 = inclinometer2ADC * 6.144 / 32768;
-mtemperatureADC
     EASYCAT.BufferIn.Cust.input0 = getPiTemperature();
 }
 
@@ -183,7 +184,7 @@ int32_t getThermistorTemp(int32_t mtemperatureADC)
     return (int32_t)t_double;
 }
 
-int32_t getMethaneConc(int32_t methaneADC) //methane conc in ppb
+int32_t getMethaneConc(int32_t methaneADC) // methane conc in ppb
 {
     // ADC to voltage
     double Vout = methaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
@@ -198,8 +199,8 @@ int32_t getMethaneConc(int32_t methaneADC) //methane conc in ppb
     double Rm = ((VDD * R) / (Vout)) - R; // VDD = 5.3
 
     // resistance to temperature
-    double ppm_double = 1021 * pow((Rm / R), -2.7887); //log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf 
-    return (int32_t) (ppm_double * 1000); //methane conc in ppb
+    double ppm_double = 1021 * pow((Rm / R), -2.7887); // log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf
+    return (int32_t)(ppm_double * 1000);               // methane conc in ppb
 }
 
 int32_t getPiTemperature() // returns intmin if error
