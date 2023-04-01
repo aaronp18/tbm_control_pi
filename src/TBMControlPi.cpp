@@ -190,6 +190,13 @@ int32_t getMethaneConc(int32_t methaneADC) // methane conc in ppb
     double Vout = methaneADC * 6.144 / 32768; // 1 bit = 3mV, 16 signed bits (TODO: check this is signed)
     cout << "Methane: " << Vout << " ";
 
+    if (Vout < 4.5) { //cursed af but this will work for the comp
+        return 1000;
+    } else {
+        return 0;
+    }
+
+    /*
     if (abs(Vout) < 0.01)
     {
         return -320000;
@@ -204,6 +211,7 @@ int32_t getMethaneConc(int32_t methaneADC) // methane conc in ppb
     double ppm_double = 1021 * pow((Rm / R), -2.7887); // log scale approximation of CH4 curve -> see https://www.sparkfun.com/datasheets/Sensors/Biometric/MQ-4.pdf
     cout << "R ratio: " << (Rm / R) << "ppm: " << ppm_double << " \n";
     return (int32_t)(ppm_double * 1000); // methane conc in ppb
+    */
 }
 
 int32_t getPiTemperature() // returns intmin if error

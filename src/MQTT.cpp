@@ -22,7 +22,7 @@ class MQTT {
             mqtt::client client(ip, "publisher", mqtt::create_options(MQTTVERSION_5));
             client.connect();
             timestamp = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-            msg = "{'team': '" + team + "', 'timestamp': " + std::to_string(timestamp) + ", 'mining': " + BoolToString(mining) + ", 'latitude': " + std::to_string(latitude) + ", 'longitude': " + std::to_string(longitude) + ", 'heading_deg': " + std::to_string(heading_deg) + ", 'depth_m': " + std::to_string(depth_m) + ", 'length_m': " + std::to_string(length_m) + "}";
+            msg = "{'team': '" + team + "', 'timestamp': " + std::to_string(timestamp) + ", 'mining': " + BoolToString(mining) + ", 'latitude': " + std::to_string(latitude) + ", 'longitude': " + std::to_string(longitude) + ", 'heading_deg': " + std::to_string(heading_deg) + ", 'depth_m': " + std::to_string(depth_m) + ", 'length_m': " + std::to_string(length_m) + ", 'mat_is_cool': true}";
             mqtt::message_ptr pubmsg = mqtt::make_message("nabc23/warwick_boring", "");
             pubmsg->set_payload(msg);
             client.publish(pubmsg);
