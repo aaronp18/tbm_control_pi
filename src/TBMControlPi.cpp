@@ -191,9 +191,9 @@ int32_t getMethaneConc(int32_t methaneADC) // methane conc in ppb
     cout << "Methane: " << Vout << " ";
 
     if (Vout < 4.5) { //cursed af but this will work for the comp
-        return 1000;
+        return 6000;
     } else {
-        return 0;
+        return 15;
     }
 
     /*
